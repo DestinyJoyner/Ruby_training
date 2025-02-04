@@ -2,4 +2,4 @@
 *.rbc
 /.config
 /coverage/
-.DS_Store
+.DS_Store,

@@ -221,6 +221,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  minitest
   rails
   rubocop
   ruby-lsp
