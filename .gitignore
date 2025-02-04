@@ -1,0 +1,5 @@
+*.gem
+*.rbc
+/.config
+/coverage/
+.DS_Store

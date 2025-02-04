@@ -1,0 +1,34 @@
+{
+    "ruby.useLanguageServer": true,
+    "ruby.lint": true,
+    "ruby.format": true,
+    "rubyLsp.enabled": true,
+    "rubyLsp.useBundler": true,
+    "rubyLsp.rubyVersion": "3.2.2",
+    "editor.suggest.enabled": true,
+    "[ruby]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "Shopify.ruby-lsp",
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.suggest.enabled": true,
+        "editor.suggestSelection": "first",
+        "editor.acceptSuggestionOnEnter": "on"
+    },
+    "rubyLsp.enabledFeatures": {
+        "codeActions": true,
+        "diagnostics": true,
+        "documentHighlights": true,
+        "documentLink": true,
+        "documentSymbols": true,
+        "foldingRanges": true,
+        "formatting": true,
+        "hover": true,
+        "inlayHint": true,
+        "onTypeFormatting": true,
+        "selectionRanges": true,
+        "semanticHighlighting": true,
+        "completion": true
+    },
+    "rubyLsp.formatter": "rubocop"
+}
