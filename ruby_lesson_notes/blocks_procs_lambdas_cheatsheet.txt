@@ -1,0 +1,24 @@
+Ruby Block
+A block is a piece of code that can be passed to methods
+Can be defined with do..end or {}
+Not objects
+Can't be stored in variables
+Passed implicitly to methods
+Used once and discarded
+
+Ruby procs and lambdas are types of blocks -> ways to store and reuse blocks.
+
+Ruby .call Method
+In Ruby, a proc and a lambda can be called directly using the .call method.
+
+Ruby lambda
+In Ruby, a lambda is an object similar to a proc. Unlike a proc, a lambda requires a specific number of arguments passed to it, and it returns to its calling method rather than returning immediately.
+
+Ruby .collect Method
+In Ruby, the .collect array method takes a block and applies the expression in the block to every element of an array.
+
+Ruby yield Keyword
+In Ruby, the yield keyword is used to transfer control from a method to a block and then back to the method once executed.
+
+Ruby proc
+In Ruby, a proc is an instance of the Proc class and is similar to a block. As opposed to a block, a proc is a Ruby object which can be stored in a variable and therefore reused many times throughout a program.
