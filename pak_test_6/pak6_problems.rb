@@ -14,6 +14,17 @@
 # The animal makes a sound.
 
 # Your solution for 84_subclass_inheritance goes here:
+class Animal
+  def speak
+    puts 'The animal makes a sound.'
+  end
+end
+
+class Dog < Animal
+end
+
+dog1 = Dog.new
+dog1.speak
 
 # Problem: 85_overriding_method_subclass
 
@@ -30,6 +41,20 @@
 # This is a car.
 
 # Your solution for 85_overriding_method_subclass goes here:
+class Vehicle
+  def describe
+    puts 'This is a vehicle.'
+  end
+end
+
+class Car < Vehicle
+  def describe
+    puts 'This is a car.'
+  end
+end
+
+car1 = Car.new
+car1.describe
 
 # Problem: 86_calling_parent_method_from_subclass
 
@@ -47,6 +72,21 @@
 # Manager is overseeing work.
 
 # Your solution for 86_calling_parent_method_from_subclass goes here:
+class Employee
+  def work
+    puts 'Employee is working.'
+  end
+end
+
+class Manager < Employee
+  def work
+    super
+    puts 'Manager is overseeing work.'
+  end
+end
+
+manager1 = Manager.new
+manager1.work
 
 # Problem: 87_understanding_method_resolution_order
 
@@ -62,6 +102,26 @@
 # Hello from C
 
 # Your solution for 87_understanding_method_resolution_order goes here:
+class A
+  def greet
+    puts 'Hello from A.'
+  end
+end
+
+class B < A
+  def greet
+    puts 'Hello from B.'
+  end
+end
+
+class C < B
+  def greet
+    puts 'Hello from C.'
+  end
+end
+
+letter_c = C.new
+letter_c.greet
 
 # Problem: 88_super_multi_levels_inheritance
 
@@ -79,6 +139,28 @@
 # I manage a team.
 
 # Your solution for 88_super_multi_levels_inheritance goes here:
+class Person
+  def introduce
+    puts 'I am a person.'
+  end
+end
+
+class EmployeeSub < Person
+  def introduce
+    super
+    puts 'I also work.'
+  end
+end
+
+class ManagerSub < EmployeeSub
+  def introduce
+    super
+    puts 'I manage a team.'
+  end
+end
+
+manager_subclass = ManagerSub.new
+manager_subclass.introduce
 
 # Problem: 89_mixing_in_modules_multiple_inheritance
 
@@ -95,6 +177,25 @@
 # I can fly!
 
 # Your solution for 89_mixing_in_modules_multiple_inheritance goes here:
+module Flyable
+  def fly
+    puts 'I can fly!'
+  end
+end
+
+class Bird
+  def speak
+    puts 'Tweet tweet!'
+  end
+end
+
+class Eagle < Bird
+  include Flyable
+end
+
+bald = Eagle.new
+bald.speak
+bald.fly
 
 # Problem: 90_extend_class
 
@@ -110,6 +211,17 @@
 # Logging from module.
 
 # Your solution for 90_extend_class goes here:
+module Logger
+  def log_message
+    puts 'Logging from module.'
+  end
+end
+
+class Application
+  extend Logger
+end
+
+Application.log_message
 
 # Problem: 91_prepend_override_methods
 
@@ -134,6 +246,48 @@
 
 # Your solution for 91_prepend_override_methods goes here:
 
+# test looking for AppLogger module name
+module LoggerPrepend
+  # instance method (available when included)
+  def log
+    puts 'Logging from instance method.'
+  end
+
+  # class method (defined in self block)
+  module ClassMethods
+    def log_class_message
+      puts 'Logging from class method.'
+    end
+  end
+
+  # this automatically extends ClassMethods when Logger is included
+  def self.included(base)
+    base.extend(ClassMethods)
+  end
+end
+
+module MessageModifier
+  def display_message
+    puts 'Message from module'
+  end
+end
+
+class Service
+  include LoggerPrepend
+
+  # extend LoggerPrepend
+  # Adds instance methods (takes precedence)
+  prepend MessageModifier
+
+  def display_message
+    puts "Won't be called becasue of prepend MessageModifier"
+  end
+end
+
+Service.log_class_message
+Service.new.log
+Service.new.display_message
+
 # Problem: 92_polymorphism
 
 # Instructions:
@@ -150,6 +304,28 @@
 # Calculating area of a rectangle...
 
 # Your solution for 92_polymorphism goes here:
+class Shape
+  def area
+    puts 'Calculating area...'
+  end
+end
+
+class Circle < Shape
+  def area
+    puts 'Calculating area of a circle...'
+  end
+end
+
+class Rectangle < Shape
+  def area
+    puts 'Calculating area of a rectangle...'
+  end
+end
+
+circle1 = Circle.new
+rectangle1 = Rectangle.new
+circle1.area
+rectangle1.area
 
 # Problem: 93_duck_typing
 
@@ -168,7 +344,26 @@
 # Bicycle is pedaling...
 
 # Your solution for 93_duck_typing goes here:
+class Car
+  def move
+    puts 'Car is driving...'
+  end
+end
 
+class Bicycle
+  def move
+    puts 'Bicycle is pedaling...'
+  end
+end
+
+def travel(obj)
+  obj.move
+end
+car_travel = Car.new
+bike_travel = Bicycle.new
+
+travel(car_travel)
+travel(bike_travel)
 # Problem: 94_interfaces
 
 # Instructions:
@@ -185,3 +380,24 @@
 # Beep boop!
 
 # Your solution for 94_interfaces goes here:
+class Dog
+  def speak
+    puts 'Woof woof!'
+  end
+end
+
+class Robot
+  def speak
+    puts 'Beep boop!'
+  end
+end
+
+def introduce(obj)
+  obj.speak
+end
+
+dog_speak = Dog.new
+robot_speak = Robot.new
+
+introduce(dog_speak)
+introduce(robot_speak)
