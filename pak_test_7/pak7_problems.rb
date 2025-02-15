@@ -81,28 +81,22 @@ end
 #   end
 # end
 def fetch_data(attempts = 0)
-  begin
-    # Simulate random failure (50% chance)
-    if rand(2).zero?
-      raise RuntimeError, "Fetching data failed."
-    end
-    
-    puts "Data fetched successfully!"
-    
-  rescue RuntimeError => e
-    # Print the error message
-    puts e.message
-    
-    # If we haven't retried yet (attempts is 0)
-    if attempts == 0
-      puts "Retrying..."
-      # Retry with attempts incremented
-      fetch_data(attempts + 1)
-    else
-      # If we've already retried once, re-raise the error
-      raise
-    end
-  end
+  # Simulate random failure (50% chance)
+  raise 'Fetching data failed.' if rand(2).zero?
+
+  puts 'Data fetched successfully!'
+rescue RuntimeError => e
+  # Print the error message
+  puts e.message
+
+  # If we haven't retried yet (attempts is 0)
+  raise unless attempts == 0
+
+  puts 'Retrying...'
+  # Retry with attempts incremented
+  fetch_data(attempts + 1)
+
+  # If we've already retried once, re-raise the error
 end
 
 # Problem: 88_rescue_else
@@ -126,6 +120,15 @@ end
 # Operation complete.
 
 # Your solution for 88_rescue_else goes here:
+def safe_divide(a, b)
+  a / b
+  puts "Result: #{a / b}"
+  puts 'Division successful.'
+rescue ZeroDivisionError => e
+  puts 'Cannot divide by zero.'
+ensure
+  puts 'Operation complete.'
+end
 
 # Problem: 89_multiple_error_types
 
@@ -148,6 +151,15 @@ end
 # Parsing complete.
 
 # Your solution for 89_multiple_error_types goes here:
+def parse_number(input)
+  input.to_int
+rescue ArgumentError => e
+  puts 'Invalid number format.'
+rescue TypeError => e
+  puts 'Cannot convert nil to a number.'
+ensure
+  puts 'Parsing Complete.'
+end
 
 # Problem: 90_nested_rescue
 
@@ -169,6 +181,33 @@ end
 # Cannot process data.
 
 # Your solution for 90_nested_rescue goes here:
+def process_data(data)
+  # Outer begin
+
+  # Nested begin
+  begin
+    # attempt to upcase
+    data.upcase!
+    puts "Converted: #{data}"
+  # nested rescue
+  rescue NoMethodError
+    # Handle the first failure
+    puts 'Invalid data type. Attempting conversion...'
+    # Try to convert the data
+    raise NoMethodError if data.nil?
+
+    # If nil raise
+
+    # For integers, convert to string and retry
+    data = data.to_s
+    # Retry inner begin block
+    retry
+  end
+# Outer rescue
+rescue NoMethodError
+  # Handle final failure
+  puts 'Cannot process data.'
+end
 
 # Problem: 91_handling_exception_rescue
 
@@ -187,6 +226,15 @@ end
 # Access denied.
 
 # Your solution for 91_handling_exception_rescue goes here:
+# put restrictions on protected file : ruby -e 'File.chmod(0000, "protected.txt")'
+def read_file(filename)
+  File.read(filename)
+  puts 'File read successfully!'
+rescue Errno::ENOENT => e
+  puts 'File not found.'
+rescue Errno::EACCES => e
+  puts 'Access denied.'
+end
 
 # Problem: 92_rescue_all_errors
 
@@ -206,6 +254,26 @@ end
 # Handled unknown error: Some unexpected issue occurred.
 
 # Your solution for 92_rescue_all_errors goes here:
+def process_data_2(input)
+  # Randomly select a number 0, 1, or 2
+  case rand(3)
+  when 0
+    raise ZeroDivisionError, 'Division by zero occurred'
+  when 1
+    raise ArgumentError, 'Invalid argument given'
+  else
+    raise StandardError, 'Some unexpected issue occurred'
+  end
+rescue ZeroDivisionError => e
+  puts 'Handled ZeroDivisionError'
+  File.write('error.log', e.message)
+rescue ArgumentError => e
+  puts 'Handled ArgumentError'
+  File.write('error.log', e.message)
+rescue StandardError => e
+  puts 'Handled unknown error'
+  File.write('error.log', e.message)
+end
 
 # Problem: 93_rasising_custom_exception
 
@@ -224,6 +292,26 @@ end
 # InvalidInputError: Invalid input - Minimum age is 18.
 
 # Your solution for 93_rasising_custom_exception goes here:
+class InvalidInputError < StandardError
+# Takes details in initialize
+# Stores details in instance variable
+# message method formats the error message
+  def initialize(details)
+    @details = details
+  end
+
+  def message
+    "Invalid input - #{@details}"
+  end
+end
+
+def validate_age_2(age)
+  if age >= 18
+    puts "Age is valid."
+  else
+    raise InvalidInputError.new("Minimum age is 18.")
+  end
+end
 
 # Problem: 94_retrying
 
@@ -244,3 +332,15 @@ end
 # Operation failed permanently.
 
 # Your solution for 94_retrying goes here:
+def fetch_data_2(retries = 0)
+  if retries < 3
+    if rand(2) == 0
+      raise RuntimeError, "Temporary failure"
+    else
+      puts "Fetching data..."
+      return "Data fetched successfully"
+    end
+  else
+    puts "Operation failed permanently."
+  end
+end
